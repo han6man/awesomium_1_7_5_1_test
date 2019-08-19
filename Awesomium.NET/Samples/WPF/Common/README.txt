@@ -1,0 +1,1 @@
+XAML shared by the two Starter Samples (C# and VB.NET)

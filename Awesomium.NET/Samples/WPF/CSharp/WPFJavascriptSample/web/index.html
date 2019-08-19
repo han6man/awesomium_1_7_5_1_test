@@ -1,0 +1,126 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>WPFJavascriptSample Page</title>
+    <script type="text/javascript">
+        function getNativeImages() {
+            var nativeContentDiv = document.getElementById('nativeImages');
+
+            nativeContentDiv.innerHTML = '';
+
+            for (i = 1; i < 7; i++) {
+                // Have the native application perform some heavy work.
+                // The result will be provided through a callback.
+                external.app.performHeavyWork(function (result) {
+                    var img = new Image();                  
+                    img.src = 'data:image/png;base64,' + result;
+                    nativeContentDiv.appendChild(img);
+                }, i, 4100);
+            }
+        }
+
+        function getBase64Image(img) {
+            if (img.src.substr(0, 5) != "asset")
+                return;
+
+            // Create an empty canvas element.
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            // Copy the image contents to the canvas.
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+
+            // Notice that using "image/jpg"
+            // will re-encode the image.
+            var dataURL = canvas.toDataURL("image/png");
+
+            return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        }
+
+        function getImages(callback) {
+
+            for (i = 0; i < document.images.length; i++) {
+                var tmpImg = new Image();
+
+                tmpImg.onload = function () {
+                    var imgData = getBase64Image(event.srcElement);
+                    callback(imgData);
+                };
+
+                tmpImg.src = document.images[i].src;
+            }
+        }
+
+        function getImagesAppAware() {
+            for (i = 0; i < document.images.length; i++) {
+                var tmpImg = new Image();
+
+                tmpImg.onload = function () {
+                    var imgData = getBase64Image(event.srcElement);
+                    external.app.sendResponse(imgData);
+                };
+
+                tmpImg.src = document.images[i].src;
+            }
+        }
+    </script>
+    <style type="text/css">
+        /* This style simulates the appearance of the WPF control. */
+        body
+        {
+            margin: 0;
+            padding: 0;
+            font-family: Segoe UI;
+            font-size: 16px;
+            line-stacking-strategy: block-line-height;
+            line-height: 20px;
+        }
+
+        button
+        {
+            font-family: Segoe UI;
+            font-size: 16px;
+            min-width: 200px;
+            margin: 0;
+            padding: 5px;
+        }
+
+        p
+        {
+            margin: 0px 0px 10px 0px;
+        }
+
+        img
+        {
+            width: 150px;
+            margin: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        This is a web page that has some images already loaded through our application's asset store. It will ask for some more 
+        from our native application, that will be loaded asynchronously, simulating a time consuming operation.
+    </p>
+    <div style="text-align: center;">
+        <button onclick="getNativeImages()">
+            Load Native Images
+        </button>
+    </div>
+    <h4>Preloaded Images:</h4>
+    <div>        
+        <img src="../images/number-1.png" alt="Preloaded image" />
+        <img src="../images/number-2.png" alt="Preloaded image" />
+        <img src="../images/number-3.png" alt="Preloaded image" />
+        <img src="../images/number-4.png" alt="Preloaded image" />
+        <img src="../images/number-5.png" alt="Preloaded image" />
+        <img src="../images/number-6.png" alt="Preloaded image" />
+    </div>
+    <h4>Images From Native App:</h4>
+    <div id="nativeImages">        
+        
+    </div>
+</body>
+</html>

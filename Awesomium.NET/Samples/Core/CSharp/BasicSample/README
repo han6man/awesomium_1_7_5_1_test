@@ -1,0 +1,14 @@
+About Program.cs
+
+This C# code file contains the code of a
+basic starter Awesomium.NET sample using
+the core WebView component.
+
+The code is platform independent and this
+file is used by both the:
+
+Windows BasicSample:
+/Samples/Core/CSharp/BasicSample
+
+Mono (platform independent) BasicSample:
+/Samples/Mono/Core/BasicSample

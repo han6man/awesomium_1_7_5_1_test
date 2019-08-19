@@ -1,0 +1,66 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>WebControl Sample Test Page</title>
+    <link rel="stylesheet" href="../css/stylesheet.css" type="text/css" charset="utf-8" />
+    <script src="../scripts/json2.js" type="text/javascript"></script>
+    <script language="javascript" type="text/jscript">
+        function openWindow(address, target, specs) {
+            window.open(address, target, specs);
+            return false;
+        }
+
+        function sendPresureToNative() {
+            // Have the native application perform some heavy work.
+            // The result will be provided through a callback.
+            external.app.performHeavyWork(function (result) {
+                // Do something with the result.
+                console.log(String(result));
+            });
+        }
+    </script>
+</head>
+<body style="font: 20px/27px 'Oxygen';">
+    <div style="position:absolute; top: 0px; right: 0px;">
+        <button class="btn close" onclick="window.close()" title="Exit">X</button>
+    </div>
+    <div style="position:absolute; top: 0px; right: 30px;">
+        <button class="btn" onclick="OSMJIF.minimize(window === top)" title="Minimize">_</button>
+    </div>
+    <div style="text-align: center;">
+        <p>This <i>page</i> and image are <b><i>loaded</i></b> using a <b><a href="http://docs.awesomium.net/?tc=T_Awesomium_Core_Data_ResourceDataSource" target="_blank">ResourceDataSource</a></b>.</p>
+        <a href="http://www.awesomium.net" target="_blank"><img src="asset://local/images/logo.png" alt="Awesomium" /></a>
+        <div>
+            <a href="javascript:sendPresureToNative()">Heavy Work Example</a><br />
+            <a href="javascript:window.print()">Print</a><br />
+            <a href="javascript:window.confirm('Do you confirm?')">Confirm</a><br />
+            <a href="javascript:console.log('Test message added to the console.')">Console</a><br />
+            <a href="http://www.google.com" target="_blank">Target Blank (Google)</a><br />
+            <a href="javascript:openWindow('http://www.google.com', '_blank', 'width=640,height=480')">Blank (Google)</a><br />
+            <a href="javascript:openWindow('http://www.google.com', '', 'width=640,height=480')">Empty (Google)</a><br />
+            <a href="javascript:openWindow('http://www.google.com', 'someName', 'left=50,top=50,width=640,height=480,resizable=no')">SomeName (Google)</a><br />
+        </div>
+        <div style="float: left; margin: 30px;">
+            <iframe width="470" height="260" src="index.html"></iframe>
+        </div>
+        <div style="float: right; margin: 30px;">
+            <form action="http://awesomium.net/samples/testpost.php" method="post" target="_blank">
+                <input id="postfield1" name="val1" type="text" />
+                <input id="postfield2" name="val2" type="text" />
+                <input type="submit" />
+            </form>
+            <form action="http://awesomium.net/samples/testpost.php" method="get" target="_blank">
+                <input name="val1" type="text" />
+                <input name="val2" type="text" />
+                <input type="submit" />
+            </form>
+            <form action="http://awesomium.net/samples/testpost.php" method="post" target="_blank">
+                <input type="submit" />
+            </form>
+            <form action="http://awesomium.net/samples/testpost.php" method="get" target="_blank">
+                <input type="submit" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>

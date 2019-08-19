@@ -1,0 +1,50 @@
+
+.btn {
+    font-family: Arial;
+    font-size: 18px;
+    color: #ffffff;
+    background: #1f628d;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 0;
+    border: 0;
+}
+
+.btn:hover {
+    background: #3498db;
+    text-decoration: none;
+}
+
+.btn.close {
+    background: #b80000;
+}
+
+.btn.close:hover {
+    background: #e01616;
+}
+
+@font-face {
+    font-family: 'Oxygen';
+    src: url('../fonts/Oxygen-webfont.svg#OxygenRegular') format('svg');
+}
+
+@font-face {
+    font-family: 'Oxygen';
+    src: url('../fonts/Oxygen-Italic-webfont.svg#OxygenItalic') format('svg');
+    font-style: italic, oblique;
+}
+
+@font-face {
+    font-family: 'Oxygen';
+    src: url('../fonts/Oxygen-Bold-webfont.svg#OxygenBold') format('svg');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Oxygen';
+    src: url('../fonts/Oxygen-BoldItalic-webfont.svg#OxygenBoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic, oblique;
+}

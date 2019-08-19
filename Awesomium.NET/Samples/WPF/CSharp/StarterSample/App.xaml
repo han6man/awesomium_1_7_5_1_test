@@ -1,0 +1,12 @@
+﻿<Application 
+    x:Class="StarterSample.App" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:awe="http://schemas.awesomium.com/winfx"
+    xmlns:data="http://schemas.awesomium.com/winfx/data"
+    xmlns:core="http://schemas.awesomium.com/core"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+    </Application.Resources>
+</Application>
