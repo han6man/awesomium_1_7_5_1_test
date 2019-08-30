@@ -23,7 +23,6 @@ namespace Test
         private int framesLoaded = 1;
         private bool isDomReady;
         private bool isMainFrame = false;
-        //GoogleTranslate googleTranslate = new GoogleTranslate();
 
         public Form1()
         {
@@ -75,8 +74,7 @@ namespace Test
                 richTextBox1.AppendText("WebControl_DocumentReady return\n");
                 return;
             }
-
-            //Translate();            
+         
         }
 
         private void Awesomium_Windows_Forms_WebControl_AddressChanged(object sender, Awesomium.Core.UrlEventArgs e)
@@ -120,7 +118,7 @@ namespace Test
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            textBox2.Text = string.Empty;
+
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -131,6 +129,70 @@ namespace Test
                 translated = true;
         }
 
+        private void Awesomium_Windows_Forms_WebControl_Crashed(object sender, Awesomium.Core.CrashedEventArgs e)
+        {
+            switch (e.Status)
+            {
+                case Awesomium.Core.TerminationStatus.Abnormal:
+                    //NewMessage(this, "Abnormal Termination of browser ", this.GetBrowserIndex());
+                    break;
+                case Awesomium.Core.TerminationStatus.Crashed:
+                    //NewMessage(this, "Crashed Termination of browser ", this.GetBrowserIndex());
+                    break;
+                case Awesomium.Core.TerminationStatus.Killed:
+                    //NewMessage(this, "Killed Termination of browser ", this.GetBrowserIndex());
+                    break;
+                case Awesomium.Core.TerminationStatus.None:
+                    //NewMessage(this, "None Termination of browser ", this.GetBrowserIndex());
+                    break;
+                case Awesomium.Core.TerminationStatus.Normal:
+                    //NewMessage(this, "Normal Termination of browser ", this.GetBrowserIndex());
+                    break;
+                case Awesomium.Core.TerminationStatus.StillRunning:
+                    //NewMessage(this, "Browser Still Running ", this.GetBrowserIndex());
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static void StyleWebcontrolScrollbars(ref Awesomium.Windows.Forms.WebControl webcontrol)
+        {
+            var script = @" var css = ""::-webkit-scrollbar { width: 12px; } ::-webkit-scrollbar-track { background-color: #111111;	} ::-webkit-scrollbar-thumb { background-color: #444444; } ::-webkit-scrollbar-thumb:hover { background-color: #5e5e5e;	}"";
+                     var style = document.createElement('style');
+                     if (style.styleSheet)
+                     {
+                         style.styleSheet.cssText = css;
+                     }
+                     else
+                     {
+                         style.appendChild(document.createTextNode(css));
+                     }
+                     document.getElementsByTagName('head')[0].appendChild(style);
+                     ";
+            webcontrol.ExecuteJavascript(script);
+        }
+
+        /// <summary>
+        /// Show some basic page information.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Awesomium_Windows_Forms_WebControl_ShowPageInfo(object sender, Awesomium.Core.PageInfoEventArgs e)
+        {
+            string res = "Certificate Error: " + e.Info.CertError.ToString();
+            res += Environment.NewLine;
+            res += e.Info.ContentStatus.ToString();
+            res += Environment.NewLine;
+            res += e.Info.SecurityStatus.ToString();
+            MessageBox.Show(res);
+        }
+
+        private void Awesomium_Windows_Forms_WebControl_ShowCreatedWebView(object sender, Awesomium.Core.ShowCreatedWebViewEventArgs e)
+        {
+
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             //string url = String.Format("https://translate.google.com/#view=home&op=translate&sl={0}&tl={1}&text={2}", "auto", "iw", "Text");
@@ -139,7 +201,7 @@ namespace Test
             //string result = webClient.DownloadString(url);
             //string url = String.Format("https://translate.google.com/#view=home&op=translate&sl={0}&tl={1}&text={2}", "auto", "ru", textBox1.Text);
             //MessageBox.Show(googleTranslate.Translate(textBox1.Text, "en", "ru"));
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -162,7 +224,6 @@ namespace Test
         {
             textBox2.Text = Translate(textBox1.Text, "ru");
         }
-
 
         //string p = "^.*<span title=\"\">";
         //Regex regex = new Regex(p);
@@ -238,6 +299,7 @@ namespace Test
             Uri url = new Uri(String.Format("https://translate.google.com/#view=home&op=translate&sl={0}&tl={1}&text={2}", "auto", toLng, textToTranslate));
             webControl1.Source = url;
             webControl1.Source = url;
+
             while (!translated)
             {
                 Application.DoEvents();
@@ -246,68 +308,6 @@ namespace Test
             return textBox2.Text;
         }
 
-        private void Awesomium_Windows_Forms_WebControl_Crashed(object sender, Awesomium.Core.CrashedEventArgs e)
-        {
-            switch (e.Status)
-            {
-                case Awesomium.Core.TerminationStatus.Abnormal:
-                    //NewMessage(this, "Abnormal Termination of browser ", this.GetBrowserIndex());
-                    break;
-                case Awesomium.Core.TerminationStatus.Crashed:
-                    //NewMessage(this, "Crashed Termination of browser ", this.GetBrowserIndex());
-                    break;
-                case Awesomium.Core.TerminationStatus.Killed:
-                    //NewMessage(this, "Killed Termination of browser ", this.GetBrowserIndex());
-                    break;
-                case Awesomium.Core.TerminationStatus.None:
-                    //NewMessage(this, "None Termination of browser ", this.GetBrowserIndex());
-                    break;
-                case Awesomium.Core.TerminationStatus.Normal:
-                    //NewMessage(this, "Normal Termination of browser ", this.GetBrowserIndex());
-                    break;
-                case Awesomium.Core.TerminationStatus.StillRunning:
-                    //NewMessage(this, "Browser Still Running ", this.GetBrowserIndex());
-                    break;
-                default:
-                    break;
-            }
-        }
 
-        public static void StyleWebcontrolScrollbars(ref Awesomium.Windows.Forms.WebControl webcontrol)
-        {
-            var script = @" var css = ""::-webkit-scrollbar { width: 12px; } ::-webkit-scrollbar-track { background-color: #111111;	} ::-webkit-scrollbar-thumb { background-color: #444444; } ::-webkit-scrollbar-thumb:hover { background-color: #5e5e5e;	}"";
-                     var style = document.createElement('style');
-                     if (style.styleSheet)
-                     {
-                         style.styleSheet.cssText = css;
-                     }
-                     else
-                     {
-                         style.appendChild(document.createTextNode(css));
-                     }
-                     document.getElementsByTagName('head')[0].appendChild(style);
-                     ";
-            webcontrol.ExecuteJavascript(script);
-        }
-
-        /// <summary>
-        /// Show some basic page information.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Awesomium_Windows_Forms_WebControl_ShowPageInfo(object sender, Awesomium.Core.PageInfoEventArgs e)
-        {
-            string res = "Certificate Error: " + e.Info.CertError.ToString();
-            res += Environment.NewLine;
-            res += e.Info.ContentStatus.ToString();
-            res += Environment.NewLine;
-            res += e.Info.SecurityStatus.ToString();
-            MessageBox.Show(res);
-        }
-
-        private void Awesomium_Windows_Forms_WebControl_ShowCreatedWebView(object sender, Awesomium.Core.ShowCreatedWebViewEventArgs e)
-        {
-
-        }
     }
 }
